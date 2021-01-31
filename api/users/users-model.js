@@ -1,10 +1,16 @@
 const db = require('../../data/dbConfig')
 
+
 module.exports = {
+  get,
   getBy,
   getById,
   add,
 
+}
+
+function get() {
+    return db('users')
 }
 
 function getBy(filter) {
