@@ -10,7 +10,7 @@ const parseToken = (authHeader) => {
 
 module.exports = (req, res, next) => {
   const token = parseToken(req.headers.authorization)
-  console.log('should be token ',auth.headers.authorization)
+//   console.log('should be token ', auth.headers.authorization)
   if (!token) {
     res.status(401).json('token required')
   } else {
