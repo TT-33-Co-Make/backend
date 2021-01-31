@@ -2,13 +2,13 @@
 exports.up = function(knex) {
     return knex.schema
       .createTable('users', table => {
-        table.increments('id')
+        table.increments()
         table.string('username', 255).notNullable().unique().index()
         table.string('email', 255).notNullable().unique().index()
         table.string('password', 255).notNullable()
       })
       .createTable('issues', table => {
-        table.increments('id')
+        table.increments()
         table.string('title', 255).notNullable()
         table.string('description').notNullable()
         table.timestamp('date_created').defaultTo(knex.fn.now())
@@ -21,10 +21,10 @@ exports.up = function(knex) {
           .onUpdate('CASCADE')
       })
       
-  };
+  }
   
   exports.down = function(knex) {
     return knex.schema
       .dropTableIfExists('issues')
-      .dropTableIfExists('users');
-  };
+      .dropTableIfExists('users')
+  }

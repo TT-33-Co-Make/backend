@@ -1,8 +1,15 @@
 const jwt = require('jsonwebtoken')
 const { jwtSecret } = require('../../config/secrets')
 
+const parseToken = (authHeader) => {
+    if (authHeader.includes('Bearer')){
+      return authHeader.split(' ')[1]
+    }
+    return authHeader
+}
+
 module.exports = (req, res, next) => {
-  const token = req.headers.authorization
+  const token = parseToken(req.headers.authorization)
   if (!token) {
     res.status(401).json('token required')
   } else {
@@ -15,4 +22,4 @@ module.exports = (req, res, next) => {
       }
     })
   }
-};
+}
