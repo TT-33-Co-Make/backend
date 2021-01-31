@@ -41,4 +41,4 @@ async function update(id, info) {
   
 async function remove(id) {
     return await getById(id).del();
-  }
+}
