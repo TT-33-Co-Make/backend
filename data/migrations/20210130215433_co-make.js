@@ -21,10 +21,10 @@ exports.up = function(knex) {
           .onUpdate('CASCADE')
       })
       
-  };
+  }
   
   exports.down = function(knex) {
     return knex.schema
       .dropTableIfExists('issues')
-      .dropTableIfExists('users');
-  };
+      .dropTableIfExists('users')
+  }

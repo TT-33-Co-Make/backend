@@ -45,7 +45,7 @@ const hashPassword = (req, res, next) => {
     } catch (error) {
       res.status(500).json({ message: error.message })
     }
-  }
+}
 
 
 module.exports = { validateRegInputs, uniqueEmail, uniqueUsername, hashPassword }

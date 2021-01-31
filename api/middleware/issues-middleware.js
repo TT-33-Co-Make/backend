@@ -3,7 +3,7 @@ const Issues = require('../issues/issues-model')
 const validateIssueId = async (req, res, next) => {
     const { id } = req.params
     try {
-        const issue = await Actions.get(id)
+        const issue = await Issues.getById(id)
         if(!issue) {
             res.status(404).json({ message: `issue ${id} not found` })
         } else {

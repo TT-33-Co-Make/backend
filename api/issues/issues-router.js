@@ -2,7 +2,7 @@ const router = require('express').Router()
 const Issues = require('./issues-model')
 const { validateIssueId, validateInputs, validateChanges, userPermissions } = require('../middleware/issues-middleware')
 
-// GET - find all submitted issues
+// GET - find all submitted issues ---WORKING
 router.get('/', (req, res) => {
     Issues.getAll()
         .then(data => {
@@ -13,12 +13,12 @@ router.get('/', (req, res) => {
         })
 })
 
-// GET - find issue by issue id
+// GET - find issue by issue id ---WORKING
 router.get('/:id', validateIssueId, async (req, res) => {
   res.status(200).json(req.issue)
 })
 
-// POST - add a new issue
+// POST - add a new issue ---WORKING
 router.post('/', validateInputs, async (req, res) => {
     const issue = req.body
     req.body.user_id = req.decodedJwt.subject
@@ -30,7 +30,7 @@ router.post('/', validateInputs, async (req, res) => {
     }
 })
 
-// PUT - updates an issue based on id
+// PUT - updates an issue based on id ---WORKING
 router.put('/:id', validateChanges, userPermissions, async (req, res) => {
     const { id } = req.params
     const data = req.body
@@ -43,7 +43,7 @@ router.put('/:id', validateChanges, userPermissions, async (req, res) => {
     }
 })
 
-// DELETE - delete an issue based on id
+// DELETE - delete an issue based on id ---WORKING
 router.delete('/:id', userPermissions, async (req, res) => {
     const { id } = req.params
     try {

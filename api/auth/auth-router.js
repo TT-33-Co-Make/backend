@@ -1,7 +1,12 @@
-const router = require('express').Router();
+const router = require('express').Router()
+
+const Users = require('../users/users-model')
 
 const { validateRegInputs, uniqueEmail, uniqueUsername, hashPassword } = require('../middleware/register-middleware')
-const createToken = require('../middleware/createToken');
+const { loginInput, validateUser, validatePassword } = require('../middleware/login-middleware')
+const createToken = require('../middleware/createToken')
+
+
 
 router.post('/register', validateRegInputs, uniqueEmail, uniqueUsername, hashPassword, async (req, res) => {
     try {
@@ -12,31 +17,12 @@ router.post('/register', validateRegInputs, uniqueEmail, uniqueUsername, hashPas
     }
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', loginInput, validateUser, validatePassword, (req, res) => {
 
-  const { username, password } = req.body;
-
-  if (validUser(req.body)) {
-    Users.findBy({ username: username })
-    .then(data => {
-      if(!data.length){
-        return res.status(401).json({ message: 'invalid credentials'})
-      }
-      const [user] = data
-      if ([user] && bcrypt.compareSync(password, user.password)){
-        const token = createToken(user)
-        res.status(200).json({ message: `welcome, ${user.username}`, token})
-      } else {
-        res.status(401).json({ message: 'invalid credentials '})
-      }
-    }) .catch(err => {
-      res.status(500).json({ message: 'error' })
-    })
-  } else {
-    res.status(400).json({ message: 'username and password required'})
-  }
-});
+    const token = createToken(req.userData)
+    res.status(201).json({ message: `Hello, ${req.username}`, token })
+})
 
 
 
-module.exports = router;
+module.exports = router
