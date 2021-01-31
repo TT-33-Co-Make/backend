@@ -34,6 +34,18 @@ const validateChanges = (req, res, next) => {
     }
 }
 
-validateEditPermissions = 
+const userPermissions = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const issue = await Issues.getById(id);
+      if (req.decodedJwt.subject === issue.user_id){
+        next();
+      } else {
+        res.status(403).json({ message: 'edit your own issue. this is not your issue' })
+      }
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
 
-module.exports = { validateIssueId, validateInputs, validateChanges }
+module.exports = { validateIssueId, validateInputs, validateChanges, userPermissions }

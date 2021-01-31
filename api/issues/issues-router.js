@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const Issues = require('./issues-model')
-const { validateIssueId } = require('../middleware/issues-middleware')
+const { validateIssueId, validateInputs, validateChanges, userPermissions } = require('../middleware/issues-middleware')
 
 // GET - find all submitted issues
 router.get('/', (req, res) => {
@@ -17,6 +17,42 @@ router.get('/', (req, res) => {
 router.get('/:id', validateIssueId, async (req, res) => {
   res.status(200).json(req.issue)
 })
+
+// POST - add a new issue
+router.post('/', validateInputs, async (req, res) => {
+    const issue = req.body
+    req.body.user_id = req.decodedJwt.subject
+    try {
+      const newIssue = await Issues.add(issue)
+      res.status(201).json(newIssue)
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+})
+
+// PUT - updates an issue based on id
+router.put('/:id', validateChanges, userPermissions, async (req, res) => {
+    const { id } = req.params
+    const data = req.body
+    try {
+      await Issues.update(id, data)
+      const updatedIssue = await Issues.getById(id)
+      res.status(200).json(updatedIssue);
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+})
+
+// DELETE - delete an issue based on id
+router.delete('/:id', userPermissions, async (req, res) => {
+    const { id } = req.params
+    try {
+      await Issues.remove(id)
+      res.status(200).json({ message: `Issue #${id} has been deleted` })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  })
 
 
 
