@@ -6,6 +6,7 @@ exports.up = function(knex) {
         table.string('username', 255).notNullable().unique().index()
         table.string('email', 255).notNullable().unique().index()
         table.string('password', 255).notNullable()
+
       })
       .createTable('issues', table => {
         table.increments()
@@ -20,8 +21,7 @@ exports.up = function(knex) {
           .onDelete('CASCADE')
           .onUpdate('CASCADE')
       })
-      
-  }
+}
   
   exports.down = function(knex) {
     return knex.schema
