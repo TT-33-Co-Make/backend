@@ -1,7 +1,5 @@
 const router = require('express').Router()
-
 const Users = require('../users/users-model')
-
 const { validateRegInputs, uniqueEmail, uniqueUsername, hashPassword } = require('../middleware/register-middleware')
 const { loginInput, validateUser, validatePassword } = require('../middleware/login-middleware')
 const createToken = require('../middleware/createToken')
