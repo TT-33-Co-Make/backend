@@ -6,6 +6,21 @@ const { validateRegInputs, uniqueEmail, uniqueUsername, hashPassword } = require
 const { loginInput, validateUser, validatePassword } = require('../middleware/login-middleware')
 const createToken = require('../middleware/createToken')
 
+router.get('/', (req, res) => {
+    Users.get()
+    .then((user) => {
+        res.status(200).json(user)
+    })
+    .catch(err => res.status(500).json({ message: err }))
+})
+
+router.get('/:id', (req, res) => {
+    Users.getById(req.params.id)
+    .then(user => {
+        res.status(200).json(user)
+    })
+    .catch(err => res.status(500).json({ message: err }))
+})
 
 router.post('/login', loginInput, validateUser, validatePassword, (req, res) => {
 
