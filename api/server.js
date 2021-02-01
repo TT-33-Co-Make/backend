@@ -20,4 +20,8 @@ server.use('/api', authRouter)
 server.use('/api/users', restrict, usersRouter)
 server.use('/api/issues', restrict, issuesRouter)
 
+server.get('/', (_, res) => {
+    res.status(200).json({ api: 'up' })
+})
+
 module.exports = server
