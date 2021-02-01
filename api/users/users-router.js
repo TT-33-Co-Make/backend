@@ -1,32 +1,13 @@
 const router = require('express').Router()
 const Users = require('./users-model')
 
-router.put('/:id', (req, res) => {
-    const changes = req.body
-    const id = req.params.id
-    console.log(id, changes)
-    Users.update(id, changes)
-    .then(user => {
-        if (user) {
-          res.status(200).json(user);
-        } else {
-          res.status(404).json({ message: 'The user could not be found' });
-        }
+router.get('/', (req, res) => {
+    Users.get()
+    .then((user) => {
+        res.status(200).json(user)
     })
-    .catch(err => {res.status(500).json(err)
-        console.log(err)
-    })
+    .catch(err => res.status(500).json({ message: err }))
 })
 
-router.delete('/:id', (req, res) => {
-    Users.remove(req.params.id)
-    .then(user => {
-        console.log(user)
-        res.status(200).json({ message: `account deleted` })
-    })
-    .catch(err => {res.status(500).json(err)
-        console.log(err)
-    })
-})
 
 module.exports = router

@@ -6,8 +6,7 @@ module.exports = {
   getBy,
   getById,
   add,
-  update,
-  remove
+
 }
 
 function get() {
@@ -25,15 +24,7 @@ function getById(id) {
     .first()
 }
 
-function update(id, changes) {
-    return db('users').where({ id }).update(changes)
-}
-
 async function add(newUser) {
     const [id] = await db('users').insert(newUser, 'id')
     return getById(id)
-}
-
-function remove(id) {
-    return db('users').delete(id)
 }
