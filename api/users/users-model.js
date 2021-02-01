@@ -8,7 +8,7 @@ module.exports = {
   update,
   remove,
   getUserIssues
-};
+}
 
 function get() {
   return db("users");
