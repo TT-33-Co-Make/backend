@@ -36,5 +36,5 @@ function remove(id) {
 }
 
 function getUserIssues(id) {
-  return db("issues as i").join("users as u").on("i.user_id", "u.id").where('u.id', id);
+  return db("issues as i").join("users as u", 'i.user_id', 'u.id').where('u.id', id);
 }
