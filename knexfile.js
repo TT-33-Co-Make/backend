@@ -20,6 +20,6 @@ module.exports = {
 
   production: {
     ...sharedConfig,
-    connection: { database: './data/tt-33-co-make.db3'},
+    connection: { filename: './data/tt-33-co-make.db3'},
   }
 };
