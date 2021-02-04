@@ -3,7 +3,7 @@ const Users = require('../users/users-model')
 
 const validateRegInputs = (req, res, next) => {
     if (!req.body.email || !req.body.username || !req.body.password) {
-       res.status(401).json({ message: 'email, username, and password are required' });
+       res.status(400).json({ message: 'email, username, and password are required' });
     } else {
       next();
     }
@@ -15,7 +15,7 @@ const uniqueEmail = async (req, res, next) => {
       if (!regEmail.length){
         next()
       } else {
-        res.status(401).json({ message: 'a user with this email already exists' })
+        res.status(400).json({ message: 'a user with this email already exists' })
       }
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -28,7 +28,7 @@ const uniqueUsername = async (req, res, next) => {
       if (!regUsername.length){
         next()
       } else {
-        res.status(401).json({ message: 'username is already taken' })
+        res.status(400).json({ message: 'username is already taken' })
       }
     } catch (err) {
         res.status(500).json({ message: err.message });
