@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Issues = require('./issues-model')
+const Votes = require('../actions/votes-model')
 const { validateIssueId, validateInputs, validateChanges, userPermissions } = require('../middleware/issues-middleware')
 
 // GET - find all submitted issues ---WORKING
@@ -54,7 +55,17 @@ router.delete('/:id', userPermissions, async (req, res) => {
     }
   })
 
-
-
+// Add votes
+router.post('/:id/votes', async (req, res) => {
+  const vote = req.body
+  console.log(vote)
+  req.body.issue_id = parseInt(req.params.id)
+  try {
+    const result = Votes.addVote(vote)
+    res.status(201).json(result)
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router
