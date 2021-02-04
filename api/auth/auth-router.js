@@ -4,7 +4,6 @@ const { validateRegInputs, uniqueEmail, uniqueUsername, hashPassword } = require
 const { loginInput, validateUser, validatePassword } = require('../middleware/login-middleware')
 const createToken = require('../middleware/createToken')
 
-
 router.post('/login', loginInput, validateUser, validatePassword, (req, res) => {
 
     const token = createToken(req.userData)

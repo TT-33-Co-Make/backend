@@ -19,6 +19,7 @@ const validateUser = async (req, res, next) => {
   try {
     const data = await Users.getBy(email ? { email } : { username });
     if (!data.length) {
+      console.log(req.body)
       res.status(401).json({ message: "invalid user credentials" });
     } else {
       req.userData = data[0];
