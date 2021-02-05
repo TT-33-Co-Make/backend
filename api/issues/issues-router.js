@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Issues = require('./issues-model')
 const Votes = require('../actions/votes-model')
+const Comments = require('../actions/comments-model')
 const { validateIssueId, validateInputs, validateChanges, userPermissions } = require('../middleware/issues-middleware')
 
 // GET - find all submitted issues ---WORKING
@@ -83,5 +84,18 @@ router.post('/:id/votes', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// COMMENTS 
+router.post('/:id/comments', async (req, res) => {
+  const comment = req.body;
+  req.body.user_id = req.decodedToken.subject
+  req.body.issue_id = parseInt(req.params.id);
+  try {
+    const result = await Comments.addComment(comment)
+    res.status(201).json(result)
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+})
 
 module.exports = router
