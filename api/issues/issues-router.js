@@ -86,9 +86,21 @@ router.post('/:id/votes', async (req, res) => {
 });
 
 // COMMENTS 
+router.get('/:id/comments', (req, res) => {
+  const { id } = req.params
+  Comments.getComments(id)
+  .then(comment => {
+    if (comment[0].id === null) {
+      res.status(401).json({ message: 'no comments' })
+    } else {
+      res.status(200).json(comment)
+    }
+  })
+})
+
 router.post('/:id/comments', async (req, res) => {
   const comment = req.body;
-  req.body.user_id = req.decodedToken.subject
+  req.body.user_id = req.decodedJwt.subject
   req.body.issue_id = parseInt(req.params.id);
   try {
     const result = await Comments.addComment(comment)
@@ -96,6 +108,23 @@ router.post('/:id/comments', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+})
+
+router.delete('/:id/comments', (req, res) => {
+  const { id } = req.params
+  Comments.remove(id)
+  .then(comment => {
+    if (!comment) {
+      console.log(comment)
+      res.status(500).json({ message: `comment with this id not found` })
+    } else {
+      console.log(comment)
+      res.status(204).json(comment)
+    }
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
 })
 
 module.exports = router
