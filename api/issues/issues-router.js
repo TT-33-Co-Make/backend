@@ -55,12 +55,26 @@ router.delete('/:id', userPermissions, async (req, res) => {
     }
   })
 
-// Add votes
+// votes
+router.get('/:id/votes', (req, res) => {
+  const { id } = req.params;
+  Votes.getIssuesVotes(id)
+  .then(vote => {
+    if (vote[0].id === null) {
+      res.status(401).json({ message: 'no votes' })
+    } else {
+      res.status(200).json(vote)
+    }
+  })
+  .catch(err => {
+    res.status(500).json({ message: err.message })
+})
+})
+
 router.post('/:id/votes', async (req, res) => {
   const vote = req.body
   // console.log(vote)
   console.log(req)
-  req.body.user_id = req.decodedJwt.subject
   req.body.issue_id = parseInt(req.params.id);
   try {
     const result = await Votes.addVote(vote)

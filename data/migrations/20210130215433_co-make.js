@@ -23,13 +23,6 @@ exports.up = function (knex) {
     .createTable("votes", (tbl) => {
       tbl.increments("id");
       tbl
-        .integer("user_id")
-        .unsigned()
-        .references("id")
-        .inTable("users")
-        .onDelete("CASCADE")
-        .onUpdate("CASCADE");
-      tbl
         .integer("issue_id")
         .unsigned()
         .references("id")
